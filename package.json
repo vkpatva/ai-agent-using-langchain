@@ -1,0 +1,35 @@
+{
+  "name": "ai-agent-using-langchain",
+  "version": "1.0.0",
+  "description": "Onchain AI Agent using langchain",
+  "main": "index.js",
+  "scripts": {
+    "build": "dev",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-vkpatva:vkpatva/ai-agent-using-langchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@langchain/community": "^0.3.45",
+    "@langchain/core": "^0.3.57",
+    "@langchain/langgraph": "^0.3.0",
+    "@langchain/openai": "^0.5.11",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "zod": "^3.25.49"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.29",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
