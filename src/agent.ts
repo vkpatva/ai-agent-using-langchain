@@ -5,8 +5,6 @@ import { z } from "zod";
 import { convertCurrency } from "./tools/convertCurrency";
 import { transferCrypto } from "./tools/transferCrypto";
 import { getBalance } from "./tools/getBalance";
-import { EthtoUSD } from "./tools/EthtoUSD";
-import { USDtoEth } from "./tools/USDtoEth";
 
 const model = new ChatOpenAI({
   model: "gpt-4o-mini",
@@ -14,5 +12,5 @@ const model = new ChatOpenAI({
 
 export const agent = createReactAgent({
   llm: model,
-  tools: [convertCurrency, transferCrypto, getBalance, EthtoUSD, USDtoEth],
+  tools: [convertCurrency, transferCrypto, getBalance],
 });

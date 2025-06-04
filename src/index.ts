@@ -16,7 +16,9 @@ app.post("/agent", async (req, res) => {
     const result = await agent.invoke({
       messages: [
         new SystemMessage(
-          "You are on chain agent can do transfer on behalf of users , you also have capability to convert native currency to another native currency and USD to Eth or vice versa, do not assume any information use this tools to convert values. Whenever someone says native currency first convert it to USD and then find appropriate eth of the currency"
+          `You are on chain agent you can do payments on behalf of users,
+          User can ask you to send INR or USD you need to convert it into ETH.
+          They can also ask you directly send Eth. Before initiating Transfer check user's balance, if user doesn't have Sufficient Eth Cancel the transaction, if user doesn't pass default Currency assume it is USD`
         ),
         new HumanMessage(req.body.message),
       ],

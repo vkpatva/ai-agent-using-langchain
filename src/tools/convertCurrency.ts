@@ -16,23 +16,38 @@ export const convertCurrency = tool(
       toCurrency,
       amount,
     });
-    if (fromCurrency == "INR" && toCurrency == "USD") {
-      return `${amount}/88`;
-    } else if (fromCurrency == "USD" && toCurrency == "INR") {
-      return `${amount}*88`;
+    // Define conversion rates
+    const rates: Record<string, number> = {
+      "ETH-USD": 2500,
+      "USD-ETH": 1 / 2500,
+      "USD-INR": 88,
+      "INR-USD": 1 / 88,
+      "ETH-INR": 2500 * 88,
+      "INR-ETH": 1 / (2500 * 88),
+    };
+
+    const key = `${fromCurrency}-${toCurrency}`;
+    const rate = rates[key];
+
+    if (rate === undefined) {
+      throw new Error(
+        `Conversion from ${fromCurrency} to ${toCurrency} not supported.`
+      );
     }
-    return 1;
+    console.log(amount * rate);
+    return amount * rate;
   },
   {
     name: "convertCurrency",
-    description: "Convert a Native currency to another native currency",
+    description:
+      "Give rate of one currency to another, accepts only ETH INR and USD conversion",
     schema: z.object({
       fromCurrency: z
         .string()
-        .describe("The currency to convert from eg : INR , USD , AUD..."),
+        .describe("The currency to convert from eg : INR , ETH , USD..."),
       toCurrency: z
         .string()
-        .describe("The currency to convert to eg: USD, INR ...."),
+        .describe("The currency to convert to eg: ETH, USD, INR ...."),
       amount: z.number().describe("The amount to convert"),
     }),
   }
