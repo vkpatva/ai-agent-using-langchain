@@ -13,18 +13,27 @@ app.use(express.urlencoded({ extended: true }));
 
 app.post("/agent", async (req, res) => {
   try {
+    const { thread, message } = req.body;
+
+    //todo: read using db
+    if (!app.locals.threads) {
+      app.locals.threads = {};
+    }
+    const threads = app.locals.threads;
+
+    if (!threads[thread]) {
+      threads[thread] = [new SystemMessage(`you can fetch weather`)];
+    }
+
+    threads[thread].push(new HumanMessage(message));
+    console.log(JSON.stringify(threads[thread]));
+
     const result = await agent.invoke({
-      messages: [
-        new SystemMessage(
-          `You are on chain agent you can do payments on behalf of users,
-          User can ask you to send INR or USD you need to convert it into ETH.
-          They can also ask you directly send Eth. Before initiating Transfer check user's balance, if user doesn't have Sufficient Eth Cancel the transaction, if user doesn't pass default Currency assume it is USD`
-        ),
-        new HumanMessage(req.body.message),
-      ],
+      messages: threads[thread],
     });
 
-    console.log(result.messages[result.messages.length - 1].content);
+    threads[thread].push(result.messages[result.messages.length - 1]);
+
     res.send(result.messages[result.messages.length - 1].content);
   } catch (error) {
     console.error("Error: ", error);
