@@ -1,9 +1,9 @@
 import { tool } from "@langchain/core/tools";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { ChatOpenAI } from "@langchain/openai";
-import { z } from "zod";
-import { weatherTool } from "./tools/fetchWeather";
 import { identityTool } from "./tools/identity";
+import { resumeAnalysisTool, resumeReaderTool } from "./tools/resume-reader";
+import { jobMatchTool } from "./tools/job-match";
 
 const model = new ChatOpenAI({
   model: "gpt-4o-mini",
@@ -11,5 +11,5 @@ const model = new ChatOpenAI({
 
 export const agent = createReactAgent({
   llm: model,
-  tools: [weatherTool, identityTool],
+  tools: [identityTool, resumeReaderTool, resumeAnalysisTool, jobMatchTool],
 });
